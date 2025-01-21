@@ -31,7 +31,7 @@ export default function Home() {
 
   const fetchPricePerPage = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/price-per-page')
+      const response = await axios.get('http://localhost:3001/api/price-per-page')
       setPricePerPage(response.data.pricePerPage)
     } catch (error) {
       toast.error('Erro ao carregar preço por página')
@@ -41,7 +41,7 @@ export default function Home() {
   const fetchPrinters = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:3001/printers')
+      const response = await axios.get('http://localhost:3001/api/printers')
       const printersList = response.data.printers || []
       setPrinters(printersList)
       if (printersList.length > 0) {
@@ -85,7 +85,7 @@ export default function Home() {
       formData.append('pdf', file)
       try {
         const response = await axios.post(
-          'http://localhost:3001/count-pages',
+          'http://localhost:3001/api/count-pages',
           formData
         )
         setPageCount(response.data.pageCount)
@@ -109,7 +109,7 @@ export default function Home() {
   const checkPaymentStatus = async (paymentId) => {
     try {
       const response = await axios.get(
-        `http://localhost:3001/payment-status/${paymentId}`
+        `http://localhost:3001/api/payment-status/${paymentId}`
       )
       return response.data.status
     } catch (error) {
@@ -137,7 +137,7 @@ export default function Home() {
       return
     }
     try {
-      const response = await axios.post('http://localhost:3001/create-payment', {
+      const response = await axios.post('http://localhost:3001/api/create-payment', {
         pageCount: pageCount,
       })
       setPaymentData(response.data)
@@ -158,7 +158,7 @@ export default function Home() {
     formData.append('printer', selectedPrinter)
     formData.append('paymentId', paymentId)
     try {
-      const response = await axios.post('http://localhost:3001/print', formData, {
+      const response = await axios.post('http://localhost:3001/api/print', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       toast.success('Documento enviado para impressão!', { theme: 'dark' })

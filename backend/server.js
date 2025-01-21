@@ -121,11 +121,11 @@ async function checkPaymentStatus(paymentId) {
 }
 
 // Rotas da API
-app.get('/price-per-page', (req, res) => {
+app.get('/api/price-per-page', (req, res) => {
   res.json({ pricePerPage: PRICE_PER_PAGE })
 })
 
-app.get('/printers', async (req, res) => {
+app.get('/api/printers', async (req, res) => {
   try {
     const printers = await getWindowsPrinters()
     res.json({ printers })
@@ -138,7 +138,7 @@ app.get('/printers', async (req, res) => {
   }
 })
 
-app.post('/count-pages', upload.single('pdf'), async (req, res) => {
+app.post('/api/count-pages', upload.single('pdf'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'Nenhum arquivo enviado' })
   }
@@ -168,7 +168,7 @@ app.post('/count-pages', upload.single('pdf'), async (req, res) => {
   }
 })
 
-app.post('/create-payment', async (req, res) => {
+app.post('/api/create-payment', async (req, res) => {
   try {
     const pageCount = req.body.pageCount
     const amount = pageCount * PRICE_PER_PAGE
@@ -184,7 +184,7 @@ app.post('/create-payment', async (req, res) => {
   }
 })
 
-app.get('/payment-status/:paymentId', async (req, res) => {
+app.get('/api/payment-status/:paymentId', async (req, res) => {
   try {
     const status = await checkPaymentStatus(req.params.paymentId)
     res.json({ status })
@@ -193,7 +193,7 @@ app.get('/payment-status/:paymentId', async (req, res) => {
   }
 })
 
-app.post('/print', upload.single('pdf'), async (req, res) => {
+app.post('/api/print', upload.single('pdf'), async (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'Nenhum arquivo enviado' })
   }
